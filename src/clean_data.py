@@ -46,13 +46,13 @@ class Stock_Cleaner:
         print("-"*35)
         print(df.dtypes)
  
-        print("\nFirst 20 rows:")
+        print("\nFirst 3 rows:")
         print("-"*35)
-        print(df.head(20).to_string(index=False))
+        print(df.head(1).to_string(index=False))
  
-        print("\nLast 20 rows:")
+        print("\nLast 3 rows:")
         print("-"*35)
-        print(df.tail(20).to_string(index=False))
+        print(df.tail(1).to_string(index=False))
  
         print("\nAny missing values?")
         print("-"*35)
