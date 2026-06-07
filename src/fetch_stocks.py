@@ -33,7 +33,7 @@ class StockAPI:
             return {"error": data['Information']}
         return data
         
-    def print_stock(self, data, symbol, rows= 20):
+    def print_stock(self, data, symbol, rows= 5):
         if data is None:
             print("No data to display.")
             return
