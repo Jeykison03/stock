@@ -96,7 +96,8 @@ class stock_reader:
         print(f"SPARK DATAFRAME — {label}")
         print("=" * 50)
         print(f"\nTotal rows: {df.count()}")
-        df.show(90, truncate=False)
+        num_rows = df.count()
+        df.show(num_rows, truncate=False)
 
 
 if __name__ == "__main__":

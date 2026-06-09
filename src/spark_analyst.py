@@ -12,7 +12,9 @@ load_dotenv()
 
 
 class spark_transform:
-    
+    def __init__(self):
+        self.spark = get_spark_session(project_root=ROOT_DIR)
+        self.jdbc_url, self.properties = get_jdbc_config()
     def read_raw(self):
 
         return stock_reader(project_root=ROOT_DIR).read_table("stock_prices")
@@ -120,20 +122,20 @@ class spark_transform:
         df = self.rsi(df)
         df = self.macd(df)
 
+        self.save_to_db(df)
+
         print("\n" + "=" * 50)
         print("SPARK TRANSFORM COMPLETE")
         print("gold_stock_metrics is ready for the dashboard")
         print("=" * 50)
-
-        df.show(truncate = False)
+        num_rows = df.count()
+        df.show(num_rows, truncate = False)
         return df
-        # show sample before writing
-        
- 
-        # write to gold table
-        
- 
-        
+    
+    def save_to_db(self,df):
+        gold_df = df.select("symbol", "date", "open", "high", "low", "close", "volume", "Sma_5d", "Sma_20d", "daily_return", "daily_range", "signal", "RSI_14d", "macd")
+        gold_df.write.jdbc(url=self.jdbc_url, table="stock_analysis", mode="overwrite", properties=self.properties)
+        print("\nTransformed data saved to gold_stock_metrics table")
 
 if __name__ == "__main__":
     
